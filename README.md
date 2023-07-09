@@ -8,6 +8,11 @@ p({h={test=8}})
 
 Test cases
 ```Lua
+local function jpath2(str, expr)
+  local res = jpath(str)(expr)
+  print(str, "=", json.encode(res))
+end
+
 jpath2("$.foo.bar",{foo={b=9,bar=8}})
 jpath2("$.foo.bar",{foo={b=9,bar=8}})
 jpath2("$[foo].bar",{foo={b=9,bar=8}})
