@@ -81,3 +81,33 @@ jpath2("$[?(@.a)]",{a={foo={'a','b'}},c={foo={'c','b'}} })
 jpath2("$..[?(@.a>8)]",{a=9,c={a={'c','b'}} })
 jpath2("$..[?(!@.a)]",{a=9,c={a={'c'},b=7}})
 ```
+
+Result:
+```Lua
+$.foo.bar	=	[8]
+$.foo.bar	=	[8]
+$[foo].bar	=	[8]
+$.foo['bar','b']	=	[8,9]
+$.*	=	[{"b":9,"bar":8}]
+$..b	=	[9,7]
+$..[b][1]	=	[7]
+$[::-1]	=	["d","c","b","a"]
+$[?(@.book > 3 || @.book==0)]	=	[{"book":5},{"book":0}]
+$.store.book[*].author	=	["Nigel Rees","Evelyn Waugh","Herman Melville","J. R. R. Tolkien"]
+$..author	=	["Nigel Rees","Evelyn Waugh","Herman Melville","J. R. R. Tolkien"]
+$.store.*	=	[{"price":19.95,"color":"red"},[{"price":8.95,"author":"Nigel Rees","title":"Sayings of the Century","category":"reference"},{"price":12.99,"author":"Evelyn Waugh","title":"Sword of Honour","category":"fiction"},{"category":"fiction","price":8.99,"author":"Herman Melville","title":"Moby Dick","isbn":"0-553-21311-3"},{"category":"fiction","price":22.99,"author":"J. R. R. Tolkien","title":"The Lord of the Rings","isbn":"0-395-19395-8"}]]
+$.store..price	=	[19.95,8.95,12.99,8.99,22.99]
+$..book[2]	=	[{"price":12.99,"author":"Evelyn Waugh","title":"Sword of Honour","category":"fiction"}]
+$..book[-1:]	=	[{"category":"fiction","price":22.99,"author":"J. R. R. Tolkien","title":"The Lord of the Rings","isbn":"0-395-19395-8"}]
+$..book[1,2]	=	[{"price":8.95,"author":"Nigel Rees","title":"Sayings of the Century","category":"reference"},{"price":12.99,"author":"Evelyn Waugh","title":"Sword of Honour","category":"fiction"}]
+$..book[?(@.isbn)]	=	[{"category":"fiction","price":8.99,"author":"Herman Melville","title":"Moby Dick","isbn":"0-553-21311-3"},{"category":"fiction","price":22.99,"author":"J. R. R. Tolkien","title":"The Lord of the Rings","isbn":"0-395-19395-8"}]
+$..book[?(@.price<10)]	=	[{"price":8.95,"author":"Nigel Rees","title":"Sayings of the Century","category":"reference"},{"category":"fiction","price":8.99,"author":"Herman Melville","title":"Moby Dick","isbn":"0-553-21311-3"}]
+$..*	=	[{"bicycle":{"price":19.95,"color":"red"},"book":[{"price":8.95,"author":"Nigel Rees","title":"Sayings of the Century","category":"reference"},{"price":12.99,"author":"Evelyn Waugh","title":"Sword of Honour","category":"fiction"},{"category":"fiction","price":8.99,"author":"Herman Melville","title":"Moby Dick","isbn":"0-553-21311-3"},{"category":"fiction","price":22.99,"author":"J. R. R. Tolkien","title":"The Lord of the Rings","isbn":"0-395-19395-8"}]},{"price":19.95,"color":"red"},[{"price":8.95,"author":"Nigel Rees","title":"Sayings of the Century","category":"reference"},{"price":12.99,"author":"Evelyn Waugh","title":"Sword of Honour","category":"fiction"},{"category":"fiction","price":8.99,"author":"Herman Melville","title":"Moby Dick","isbn":"0-553-21311-3"},{"category":"fiction","price":22.99,"author":"J. R. R. Tolkien","title":"The Lord of the Rings","isbn":"0-395-19395-8"}],19.95,"red",{"price":8.95,"author":"Nigel Rees","title":"Sayings of the Century","category":"reference"},{"price":12.99,"author":"Evelyn Waugh","title":"Sword of Honour","category":"fiction"},{"category":"fiction","price":8.99,"author":"Herman Melville","title":"Moby Dick","isbn":"0-553-21311-3"},{"category":"fiction","price":22.99,"author":"J. R. R. Tolkien","title":"The Lord of the Rings","isbn":"0-395-19395-8"},8.95,"Nigel Rees","Sayings of the Century","reference",12.99,"Evelyn Waugh","Sword of Honour","fiction","fiction",8.99,"Herman Melville","Moby Dick","0-553-21311-3","fiction",22.99,"J. R. R. Tolkien","The Lord of the Rings","0-395-19395-8"]
+$[(2+2)]	=	[4]
+$[?(@.bar || @.foo)]	=	[{"foo":false}]
+$[?('b' in @..foo)]	=	[{"foo":["a","b"]}]
+$[?(@..foo)]	=	[{"foo":["c","b"]},{"foo":["a","b"]}]
+$[?(@.a)]	=	[]
+$..[?(@.a>8)]	=	[{"a":["c","b"]}]
+$..[?(!@.a)]	=	[9,7,["c"],"c"]
+```
